@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html>
+<head>
+	
+	<title>Quiz Game</title>
+	
+	<style>
+		
+		html,body,div,span,h1,h2,h3,h4,h5,h6,p,code,small,strike,strong,sub,sup,b,u,i{border:0;font-size:100%;font:inherit;vertical-align:baseline;margin:0;padding:0;} 
+		
+		 
+		#frame{max-width:800px;width:90%;border:100px solid #ccc;background:#eee;padding:100px; margin-left: auto;margin-right: auto;} 
+		#content{font:normal normal 1em/1.5em "Times New Roman", Times, Arial, sans-serif;margin:0 40px 10px;} 
+		h1{font:normal bold 2em/1.8em "Times New Roman", Times, Arial, sans-serif;text-align:left;background:#ccc;padding:0 15px;width:auto}
+		h2{font:italic bold 1.3em/1.2em "Times New Roman", Times, Arial, sans-serif;padding:5px 15px 15px;} 
+		input[type=radio]{margin:0 10px 5px -22px;} label{margin:0 0 5px;}
+		#score p{font-size:0.95em; font-style:italic; color:#666; float:right;margin:5px 5px 0 0;}
+		#response{min-height:90px; margin:10px; }
+		#response h3{font:normal bold 1.2em/1.5em "Times New Roman", Times, Arial, sans-serif; margin:5px 0;}
+		#desc{font-size:0.95em; font-style:italic; color:#666; float:right;margin:5px 5px 0 0;}
+	</style>
+
+	<style>
+
+
+.container input {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+}
+
+.checkmark {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 25px;
+    width: 25px;
+    background-color: #eee;
+    border-radius: 50%;
+}
+
+.container:hover input ~ .checkmark {
+    background-color: #ccc;
+}
+
+.container input:checked ~ .checkmark {
+    background-color: #2196F3;
+}
+</style>
+	
+</head>
+
+<body>
+	<div id="frame">
+		<h1 id="desc">This game is about answering questions about coding. The objective of this game is to answer questions and receive points. Once you recieve some points, you can create your own questions. The harder the question is, the more points you get from answering it!</h1>
+    	
+		<h1 style="font-size: 15px" id="Addr"> </h1>
+		  <center><h1>The Quiz Game!</h1>  </center>
+		<div id="questionNum"><p></p></div>
+		<h2 id="question"></h2>
+		
+		<button id="check" onclick="check_Answer()">Submit Answer</button>
+		<br /> <br />  <br /> 
+		<input class="full-width has-padding has-border" id="new_Question" type="text"  placeholder="Type your own question">
+		
+		<button id="add" onclick="AddQuestion()">Add question</button>
+		<h2 id="CallBack"></h2>
+		<br /> 
+		<input class="full-width has-padding has-border" id="respond1" type="text"  placeholder="Wrong Response">
+		<br /> 
+		<input class="full-width has-padding has-border" id="respond3" type="text"  placeholder="Right Response">
+		<br /> 
+		<input class="full-width has-padding has-border" id="respond2" type="text"  placeholder="Wrong Response">
+		
+		<label id="rep1" class="container">
+		<input type="radio" name="radio">
+		<span class="checkmark"></span>
+		</label>
+		<label id="rep2" class="container">
+		<input type="radio"  name="radio">
+		<span class="checkmark"></span>
+		</label>
+		<label id="rep3" class="container">
+		<input type="radio"  name="radio">
+		<span class="checkmark"></span>
+		</label>
+
+		
+		
+		<div id="response">
+			<div id="explanation"></div>
+		</div>
+	</div>
+
+</body>
+
+<script src="sample/node_modules/web3/dist/web3.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.1.1.slim.min.js"></script>
+<script src="./index.js"></script>
+
+
+</html>

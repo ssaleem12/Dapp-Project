@@ -1,0 +1,143 @@
+pragma solidity ^0.4.0;
+
+contract Quiz_Contract {
+    
+    event new_Player (address addr, string name);
+    event new_Question (string quest, uint id);
+    event right_Answer();
+    event wrong_Answer();
+    
+    uint question_num = 0;
+    address gameOwner;
+    
+    struct Question {
+        uint id;
+        string quest;
+        string[] ans;
+        uint right_Answer_index;
+        uint score;
+        uint error;
+    }
+    
+    struct Player {
+        string name;
+        address addr;
+        int level; 
+    }
+    
+    mapping (uint => Question) Questions;
+    mapping (address => Player) players;
+    address[] public player_list;
+    
+    //This is where I create the functions
+    
+    function Quiz_Contract() {
+        gameOwner = msg.sender;
+    }
+    
+    function AddPlayer(string _name, address _addr) public returns(address){
+        
+        Player storage player = players[msg.sender];
+        player.name = _name;
+        player.addr = _addr;
+        player.level = 0;
+        player_list.push(msg.sender);
+        new_Player(_addr, _name);
+        return msg.sender;
+    }
+    
+    function Create_Question (string _quest, string ans1, string ans2, string ans3, uint right) returns (bool){
+        
+        if (players[msg.sender].level >= 20 || msg.sender == gameOwner) {
+            
+            Question storage question = Questions[question_num + 1];
+            question.id = question_num + 1;
+            question.quest = _quest;
+            question.ans.push(ans1);
+            question.ans.push(ans2);
+            question.ans.push(ans3);
+            question.right_Answer_index = right;
+            question.score = 0;
+            question.error = 0;
+            new_Question(_quest, question_num + 1);
+            players[msg.sender].level = -20;
+            return(true);
+        }
+        else{
+            return(false);
+        }
+    }
+    
+    function Verification(uint _id, uint choice_right) returns(string) {
+        
+        uint right = Questions[_id].right_Answer_index;
+        
+        if(right == choice_right){
+            
+            right_Answer();
+            return("Answer is good!");
+            
+            if(Questions[_id].score == 0){
+                players[msg.sender].level =+ 1;
+            }
+            if(Questions[_id].score == 1){
+                players[msg.sender].level =+ 2;
+            }
+            if(Questions[_id].score == 2){
+                players[msg.sender].level =+ 2;
+            }
+            if(Questions[_id].score == 3){
+                players[msg.sender].level =+ 3;
+            }
+        }
+        else{
+            Questions[_id].error =+ 1;
+            
+            wrong_Answer();
+            
+            if(Questions[_id].error >= 25 && Questions[_id].score < 3){
+                Questions[_id].score =+ 1;
+                Questions[_id].error = Questions[_id].error - 25;            
+                
+            }
+            return("Answer is wrong!");
+        }
+    }
+    
+    
+    function getPlayer() returns(address){
+        return msg.sender;
+    }
+    
+    function getName(address addr) returns(string){
+        return (players[addr].name);
+    }
+    
+    function getLevel(address addr) returns(int){
+        return (players[addr].level);
+    }
+    
+    function getQuestionNum() returns(uint) {
+        return(question_num);
+    }
+    
+    function getQuestion(uint _id) returns(string){
+        return (Questions[_id].quest);
+    }
+    
+    function getAns1(uint _id) returns(string){
+        return (Questions[_id].ans[0]);
+    }
+    
+    function getAns2(uint _id) returns(string){
+        return (Questions[_id].ans[1]);
+    }
+    
+    function getAns3(uint _id) returns(string){
+        return (Questions[_id].ans[2]);
+    }
+    
+    function getRightAns(uint _id) returns(uint) {
+        return (Questions[_id].right_Answer_index);
+    }
+}
